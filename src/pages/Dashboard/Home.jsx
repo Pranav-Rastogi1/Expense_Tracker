@@ -11,6 +11,8 @@ import {LuHandCoins,LuWalletMinimal} from 'react-icons/lu';
 import { addThousandSeparators } from '../../utils/helper';
 import RecentTransactions from '../../components/Dashboard/RecentTransactions';
 import FinanceOverview from '../../components/Dashboard/FinanceOverview';
+import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions';
+import Last60DaysExpenses from './Last60DaysExpenses';
 
 const Home = () => {
   
@@ -37,7 +39,7 @@ const Home = () => {
   React.useEffect(()=>{
     fetchDashboardData(); 
   },[]);
-  console.log("Home rendered", dashboardData);
+  // console.log("Home rendered", dashboardData);
   return (
     
     <DashboardLayout activeMenu="Dashboard">
@@ -66,6 +68,10 @@ const Home = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-6'>
           <RecentTransactions transactions={dashboardData?.recentTransactions} onSeeMore={() => navigate('/expense')}/>
             <FinanceOverview totalBalance={dashboardData?.totalBalance||0} totalIncome={dashboardData?.totalIncome||0} totalExpense={dashboardData?.totalExpense||0} />
+            <ExpenseTransactions
+             transactions={dashboardData?.ExpenseLast60Days?.transactions||[]}
+             onSeeMore={()=>navigate("/expense")}/>
+            <Last60DaysExpenses data={dashboardData?.ExpenseLast60Days?.transactions || []}/>
         </div>
       </div>
     </DashboardLayout>
