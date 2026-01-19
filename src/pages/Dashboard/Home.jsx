@@ -12,7 +12,9 @@ import { addThousandSeparators } from '../../utils/helper';
 import RecentTransactions from '../../components/Dashboard/RecentTransactions';
 import FinanceOverview from '../../components/Dashboard/FinanceOverview';
 import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions';
-import Last60DaysExpenses from './Last60DaysExpenses';
+import Last60DaysExpenses from '../../components/Dashboard/Last60DaysExpenses';
+import RecentIncomeWithChart from '../../components/Dashboard/RecentIncomeWithChart';
+import RecentIncome from '../../components/Dashboard/RecentIncome';
 
 const Home = () => {
   
@@ -72,6 +74,14 @@ const Home = () => {
              transactions={dashboardData?.ExpenseLast60Days?.transactions||[]}
              onSeeMore={()=>navigate("/expense")}/>
             <Last60DaysExpenses data={dashboardData?.ExpenseLast60Days?.transactions || []}/>
+            
+            <RecentIncomeWithChart data={dashboardData?.IncomeLast60Days?.transactions?.slice(0,4)||[]}
+            totalIncome={dashboardData?.totalIncome||0}/>
+            
+            <RecentIncome 
+               transactions={dashboardData?.IncomeLast60Days?.transactions||[]}
+               onSeeMore={()=>navigate("/income")}
+            />
         </div>
       </div>
     </DashboardLayout>
