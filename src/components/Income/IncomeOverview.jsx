@@ -4,10 +4,10 @@ import CustomBarChart from '../Charts/CustomBarChart'
 import { prepareIncomeBarChartData } from '../../utils/helper'
 
 const IncomeOverview = ({tranactions,onAddIncome}) => {
-    const [charData,setCharData]=useState([]);
+    const [chartData,setChartData]=useState([]);
     useEffect(()=>{
         const result =prepareIncomeBarChartData(tranactions);
-        setCharData(result);
+        setChartData(result);
         return ()=>{};
     },[tranactions]);
   return (
@@ -17,13 +17,13 @@ const IncomeOverview = ({tranactions,onAddIncome}) => {
                 <h5 className='text-lg'>Income Overview</h5>
                 <p className='text-xs text-gray-400 mt-0.5'>Track your earnings over time and analyze your income trends</p>
             </div>
-            <button className='add-btn' Onclick={onAddIncome}>
+            <button className='add-btn' onClick={onAddIncome}>
                 <LuPlus className='text-lg'/>
                 Add Income
             </button>
         </div>
         <div className='mt-10'>
-
+           <CustomBarChart data={chartData} xKey="month" />
         </div>
     </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,Cell } from 'recharts'
 
-const CustomBarChart = ({data}) => {
+const CustomBarChart = ({data,xKey = "category"}) => {
     const getBarColor=(index)=>{
         return index%2===0?'#875cf5':'#cfbefb'
     }
@@ -20,15 +20,16 @@ const CustomBarChart = ({data}) => {
     <div className='bg-white mt-6'>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
-            <CartesianGrid stroke='none'/>
-            <XAxis dataKey="category" tick={{fontSize:12,fill:"#555"}} stroke="none"/>
-            <YAxis tick={{fontSize:12,fill:'#555'}} stroke="none"/>
-            <Tooltip content={CustomTooltip}/>
-            <Bar dataKey="amount" fill="#FF8042" radius={[10, 10, 0, 0]}>
-              {data?.map((entry, index) => (
+          <CartesianGrid stroke='none'/>
+          {/* Yahan 'category' ki jagah xKey use karein */}
+          <XAxis dataKey={xKey} tick={{fontSize:12,fill:"#555"}} stroke="none"/>
+          <YAxis tick={{fontSize:12,fill:'#555'}} stroke="none"/>
+          <Tooltip content={<CustomTooltip xKey={xKey} />}/>
+          <Bar dataKey="amount" radius={[10, 10, 0, 0]}>
+             {data?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={getBarColor(index)} />
-              ))}
-            </Bar>
+             ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

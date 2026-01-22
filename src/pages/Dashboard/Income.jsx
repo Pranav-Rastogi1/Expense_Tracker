@@ -3,6 +3,8 @@ import DashboardLayout from '../../components/layouts/DashboardLayout'
 import IncomeOverview from '../../components/Income/IncomeOverview'
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
+import Modal from '../../components/Modal';
+import AddIncomeForm from '../../components/Income/AddIncomeForm';
 
 const Income = () => {
   const [incomeData,setIncomeData]=useState([]);
@@ -29,12 +31,23 @@ const Income = () => {
   const fetchIncomeDetails=async()=>{
     if(loading)return;
     setLoading(true);
-    try{
-      const response =await axiosInstance.get(`${API_PATHS.INCOME.GET_ALL_INCOME}`);
-      if(response.data){
+    // try{
+    //   const response =await axiosInstance.get(`${API_PATHS.INCOME.GET_ALL_INCOME}`);
+    //   if(response.data){
+    //     setIncomeData(response.data);
+    //   }
+    // }
+    try {
+    const response = await axiosInstance.get(`${API_PATHS.INCOME.GET_ALL_INCOME}`);
+    console.log("Full API Response:", response.data); // Yahan check karein array kahan hai
+
+    // Agar response structure { incomes: [...] } hai, toh response.data.incomes use karein
+    if (response.data && Array.isArray(response.data.incomes)) {
+        setIncomeData(response.data.incomes);
+    } else if (Array.isArray(response.data)) {
         setIncomeData(response.data);
-      }
     }
+  }
     catch(err){
       console.error("Error fetching income details:",err);
     }finally{
@@ -61,12 +74,18 @@ const Income = () => {
 
   return (
     <DashboardLayout activeMenu="Income">
-      <div classname="my-5 mx-auto">
+      <div className="my-5 mx-auto">
         <div className='grid grid-cols-1 gap-6'>
           <div className=''>
             <IncomeOverview tranactions={incomeData} onAddIncome={()=>setOpenAddIncomeModal(true)}/>
           </div>
         </div>
+        <Modal
+          isOpen={openAddIncomeModal}
+          onClose={()=>setOpenAddIncomeModal(false)}
+          title="Add Income">
+            <AddIncomeForm onAddIncome={handleAddIncome}/>
+          </Modal>
       </div>
     </DashboardLayout>
   )

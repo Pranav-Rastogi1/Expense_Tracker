@@ -36,11 +36,17 @@ export const prepareExpenseBarChartData=(data=[])=>{
 }
 
 export const prepareIncomeBarChartData=(data=[])=>{
-    const sortedData=[...data].sort((a,b)=>new Date(a.date)-new Date(b.date));
-    const chartData=data.map((item)=>({
-        month:moment(item?.date).format("Do MMM"),
-        source:item?.source,
-        amount:item?.amount,
-    }))
+    
+   const safeData = Array.isArray(data) ? data : [];
+
+    // 2. Use safeData for the spread/sort
+    const sortedData = [...safeData].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // 3. Map the sorted result
+    const chartData = sortedData.map((item) => ({
+        month: moment(item?.date).format('Do MMM'),
+        amount: item?.amount,
+        source: item?.source,
+    }));
     return chartData;
-}
+};
