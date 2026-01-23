@@ -29,7 +29,7 @@ return(
             ></div>
 
             {/* Modal Content: Animation aur Shadow improve kiya gaya hai */}
-            <div className='relative w-full max-w-lg mx-auto my-6 z-[60] animate-in fade-in zoom-in duration-300'>
+            <div className='relative w-full max-w-lg mx-auto my-6 z-`60` animate-in fade-in zoom-in duration-300'>
                 <div className='relative flex flex-col w-full bg-white border-none rounded-2xl shadow-2xl outline-none focus:outline-none dark:bg-gray-800'>
                     
                     {/* Header */}

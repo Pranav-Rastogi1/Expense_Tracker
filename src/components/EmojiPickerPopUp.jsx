@@ -44,7 +44,7 @@ const EmojiPickerPopUp = ({ icon, onSelect }) => {
 
             {/* Floating Picker */}
             {isOpen && (
-                <div className='absolute z-[100] mt-3 animate-in fade-in slide-in-from-top-2 duration-200'>
+                <div className='absolute z-`100` mt-3 animate-in fade-in slide-in-from-top-2 duration-200'>
                     <div className='relative shadow-2xl rounded-xl border border-slate-100 overflow-hidden bg-white'>
                         {/* Close Button Header */}
                         <div className='flex justify-end p-2 bg-slate-50 border-b border-slate-100'>
