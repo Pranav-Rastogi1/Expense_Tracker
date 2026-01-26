@@ -7,8 +7,11 @@ import Modal from '../../components/Modal';
 import AddIncomeForm from '../../components/Income/AddIncomeForm';
 import { toast } from 'react-hot-toast';
 import IncomeList from '../../components/Income/IncomeList';
+import DeleteAlert from '../../components/DeleteAlert';
+import { useUserAuth } from '../../hooks/useUserAuth';
 
 const Income = () => {
+  useUserAuth();
   const [incomeData,setIncomeData]=useState([]);
   const [loading,setLoading]=useState(false);
   const [openDeleteAlert,setOpenDeleteAlert]=useState({
@@ -85,7 +88,20 @@ const Income = () => {
 
   // Delete Income
   const deleteIncome=async(incomeID)=>{
-    
+    // console.log("Delete function triggered for ID:", incomeID); // CHECK THIS IN CONSOLE
+  
+  if (!incomeID) {
+    toast.error("Error: No ID found for this record.");
+    return;
+  }
+    try{
+      await axiosInstance.delete(`${API_PATHS.INCOME.DELETE_INCOME(incomeID)}`);
+      setOpenDeleteAlert({show:false,data:null});
+      toast.success("Income deleted successfully");
+      fetchIncomeDetails();
+    }catch(err){
+      console.error("Error deleting income:",err.response?.data?.message||err.message);
+    }
   };
 
   // Download income details
