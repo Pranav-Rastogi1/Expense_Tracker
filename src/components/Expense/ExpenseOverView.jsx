@@ -19,7 +19,7 @@ const ExpenseOverView = ({ transactions, onExpenseIncome }) => {
             <p className='text-xs text-gray-400 mt-0.5'>Track your expenses over time and analyze your expense trends</p>
         </div>
         <button className='add-btn' onClick={onExpenseIncome}>
-            <LuPlus className='text-lg' />Add Button
+            <LuPlus className='text-lg' />Add Expense
         </button>
       </div>
       <div className='mt-10'>

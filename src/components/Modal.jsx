@@ -59,4 +59,4 @@ return(
     );
 }
 
-export default Modal
+export default Modal;

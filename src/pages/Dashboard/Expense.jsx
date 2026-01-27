@@ -5,6 +5,11 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import ExpenseOverView from '../../components/Expense/ExpenseOverView';
+import Modal from '../../components/Modal';
+import AddExpenseForm from '../../components/Expense/AddExpenseForm';
+import { toast } from 'react-hot-toast';
+import ExpenseList from '../../components/Expense/ExpenseList';
+import DeleteAlert from '../../components/DeleteAlert';
 
 const Expense = () => {
   useUserAuth();
@@ -64,6 +69,24 @@ const Expense = () => {
     }
   };
 
+  const deleteExpense=async(id)=>{
+  if (!id) {
+    toast.error("Error: No ID found for this record.");
+    return;
+  }
+    try{
+      await axiosInstance.delete(`${API_PATHS.EXPENSE.DELETE_EXPENSE(id)}`);
+      setOpenDeleteAlert({show:false,data:null});
+      toast.success("Expense deleted successfully");
+      fetchExpenseDetails();
+    }catch(err){
+      console.error("Error deleting expense:",err.response?.data?.message||err.message);
+    }
+  };
+
+  // Download expense details
+  const handleDownloadExpenseDetails=async()=>{};
+
   useEffect(()=>{
     fetchExpenseDetails();
     return()=>{};
@@ -79,7 +102,18 @@ const Expense = () => {
                 onExpenseIncome={()=>setOpenAddExpenseModal(true)} 
             />
           </div>
+          <ExpenseList
+            transactions={expenseData}
+            onDelete={(id)=>{
+              setOpenDeleteAlert({show:true,data:id});
+            }}
+            onDownload={handleDownloadExpenseDetails}
+          />
         </div>
+        <Modal isOpen={openAddExpenseModal} onClose={()=>setOpenAddExpenseModal(false)} title="Add New Expense"><AddExpenseForm onAddExpense={handleAddExpense}/></Modal>
+        <Modal isOpen={openDeleteAlert.show} onClose={()=>setOpenDeleteAlert({show:false,data:null})} title="Delete Expense">
+          <DeleteAlert content="Are you sure you want to delete this expense?" onDelete={()=>deleteExpense(openDeleteAlert.data)} id={openDeleteAlert.data}></DeleteAlert>
+        </Modal>
       </div>
     </DashboardLayout>
 
